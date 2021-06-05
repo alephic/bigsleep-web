@@ -14,8 +14,8 @@ async def serve_interface(req):
     return web.FileResponse('interface.html')
 
 async def handle_prompt(req):
-    print("updating prompt")
     global bigsleep_process, active_prompt
+    print("updating prompt")
     if bigsleep_process is not None:
         print("cancelling existing dream")
         bigsleep_process.send_signal(signal.SIGINT)
@@ -26,13 +26,13 @@ async def handle_prompt(req):
     print('setting prompt to:', repr(active_prompt))
 
 async def handle_poll(req):
-    print("poll")
     global active_prompt
+    print("poll")
     return web.FileResponse(get_filename_from_prompt(active_prompt))
 
 async def report_active_prompt(req):
-    print("reporting active prompt:", repr(active_prompt))
     global active_prompt
+    print("reporting active prompt:", repr(active_prompt))
     return web.Response(text=active_prompt)
 
 def start_server(port):
