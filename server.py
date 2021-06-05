@@ -40,3 +40,11 @@ async def start_server():
         web.get('/', serve_interface),
         web.get('/update', handle_prompt)
     ])
+    runner = web.AppRunner(server)
+    await runner.setup()
+    site = web.TCPSite(runner)
+    await site.start()
+
+asyncio.ensure_future(start_server())
+
+loop.run_forever()
