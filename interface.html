@@ -9,7 +9,7 @@
             req.open("GET", "/activeprompt", true);
             req.onload = function(e) {
                 if (req.readyState === 4 && req.status === 200) {
-                    $('update_prompt').value = req.responseText;
+                    $('prompt_input').value = req.responseText;
                 }
             };
             req.send(null);
@@ -46,8 +46,8 @@
         </script>
     </head>
     <body>
-        <div id="image_slot"></div>
         <input type="text" id="prompt_input" />
         <button id="update_prompt">Update prompt</button>
+        <div id="image_slot"></div>
     </body>
 </html>
