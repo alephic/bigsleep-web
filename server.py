@@ -22,7 +22,7 @@ async def handle_prompt(req):
         bigsleep_process.send_signal(signal.SIGINT)
         bigsleep_process.wait()
     params = req.rel_url.query
-    bigsleep_process = subprocess.Popen(["dream", params['prompt'], "--open_folder", "False", "--save_every", "20", "--overwrite", "True"])
+    bigsleep_process = subprocess.Popen(["dream", params['prompt'], "--open_folder", "False", "--save_every", "10", "--overwrite", "True"])
     active_prompt = params['prompt']
     print('setting prompt to:', repr(active_prompt))
     return web.Response(text='ok')
