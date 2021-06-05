@@ -30,7 +30,7 @@
         window.addEventListener('load', function(e) {
             $('update_prompt').addEventListener('click', function(e) {
                 var req = new XMLHttpRequest();
-                req.open("GET", "/update?prompt="+encodeURIComponent(e.target.value), true);
+                req.open("GET", "/update?prompt="+encodeURIComponent($('prompt_input').value), true);
                 req.onload = function(e) {
                     if (req.readyState === 4 && req.status === 200) {
                         updatePrompt();
