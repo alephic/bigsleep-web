@@ -2,6 +2,7 @@
 from aiohttp import web
 import signal
 import subprocess
+import sys
 
 bigsleep_process = None
 active_prompt = ""
@@ -29,7 +30,7 @@ async def report_active_prompt(req):
     global active_prompt
     return web.Response(text=active_prompt)
 
-def start_server():
+def start_server(port):
     server = web.Application()
     server.add_routes([
         web.get('/image', handle_poll),
@@ -37,7 +38,7 @@ def start_server():
         web.get('/', serve_interface),
         web.get('/update', handle_prompt)
     ])
-    web.run_app(server)
+    web.run_app(server, port = port)
 
 if __name__ == "__main__":
-    start_server()
+    start_server(port=int(sys.argv[1]) if len(sys.argv) > 1 else 8080)
