@@ -4,6 +4,7 @@ import signal
 import subprocess
 import sys
 import os.path
+import os
 
 bigsleep_process = None
 active_prompt = ""
@@ -22,7 +23,9 @@ async def handle_prompt(req):
         bigsleep_process.send_signal(signal.SIGINT)
         bigsleep_process.wait()
     params = req.rel_url.query
+    os.chdir('outputs')
     bigsleep_process = subprocess.Popen(["dream", params['prompt'], "--open_folder", "False", "--save_every", "10", "--overwrite", "True"])
+    os.chdir('..')
     active_prompt = params['prompt']
     print('setting prompt to:', repr(active_prompt))
     return web.Response(text='ok')
@@ -52,4 +55,6 @@ def start_server(port):
     web.run_app(server, port = port)
 
 if __name__ == "__main__":
+    if not os.path.exists('outputs'):
+        os.mkdir('outputs')
     start_server(port=int(sys.argv[1]) if len(sys.argv) > 1 else 8080)
