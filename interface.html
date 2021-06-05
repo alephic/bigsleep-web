@@ -18,11 +18,13 @@
             var newImgElement = document.createElement("img");
             newImgElement.onload = function(e) {
                 $("image_slot").removeChild($("image_slot").firstChild);
+                newImgElement.style.display = 'block';
             };
             newImgElement.onerror = function(e) {
                 $("image_slot").removeChild(newImgElement);
             }
             newImgElement.src = window.location.href+"image?t="+encodeURIComponent(performance.now());
+            newImgElement.style.display = 'hidden';
             $("image_slot").appendChild(newImgElement);
         };
         window.addEventListener('load', function(e) {

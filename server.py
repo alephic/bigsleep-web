@@ -3,6 +3,7 @@ from aiohttp import web
 import signal
 import subprocess
 import sys
+import os.path
 
 bigsleep_process = None
 active_prompt = ""
@@ -28,7 +29,11 @@ async def handle_prompt(req):
 async def handle_poll(req):
     global active_prompt
     print("poll")
-    return web.FileResponse(get_filename_from_prompt(active_prompt))
+    image_file = get_filename_from_prompt(active_prompt)
+    if os.path.exists(image_file):
+        return web.FileResponse(image_file)
+    else:
+        return web.Response(status=404)
 
 async def report_active_prompt(req):
     global active_prompt
