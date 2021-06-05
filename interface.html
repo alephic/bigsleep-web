@@ -19,6 +19,9 @@
             newImgElement.onload = function(e) {
                 $("image_slot").removeChild($("image_slot").firstChild);
             };
+            newImgElement.onerror = function(e) {
+                $("image_slot").removeChild(newImgElement);
+            }
             newImgElement.src = window.location.href+"/image?t="+encodeURIComponent(performance.now());
             $("image_slot").appendChild(newImgElement);
         };
