@@ -1,10 +1,7 @@
 
 from aiohttp import web
-import asyncio
 import signal
 import subprocess
-
-loop = asyncio.get_event_loop()
 
 bigsleep_process = None
 active_prompt = ""
@@ -32,19 +29,15 @@ async def report_active_prompt(req):
     global active_prompt
     return web.Response(text=active_prompt)
 
-async def start_server():
-    server = web.Application(loop=loop)
+def start_server():
+    server = web.Application()
     server.add_routes([
         web.get('/image', handle_poll),
         web.get('/activeprompt', report_active_prompt),
         web.get('/', serve_interface),
         web.get('/update', handle_prompt)
     ])
-    runner = web.AppRunner(server)
-    await runner.setup()
-    site = web.TCPSite(runner)
-    await site.start()
+    web.run_app(server)
 
-asyncio.ensure_future(start_server())
-
-loop.run_forever()
+if __name__ == "__main__":
+    start_server()
