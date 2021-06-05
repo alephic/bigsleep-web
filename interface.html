@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <script type="application/javascript">
-        var $ = document.getElementById;
+        var $ = function(id) {return document.getElementById(id);};
         var updatePrompt = function() {
             var req = new XMLHttpRequest();
             req.open("GET", window.location.href+"/activeprompt", true);
