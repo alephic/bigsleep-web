@@ -6,7 +6,7 @@
         var $ = function(id) {return document.getElementById(id);};
         var updatePrompt = function() {
             var req = new XMLHttpRequest();
-            req.open("GET", window.location.href+"/activeprompt", true);
+            req.open("GET", window.location.href+"activeprompt", true);
             req.onload = function(e) {
                 if (req.readyState === 4 && req.status === 200) {
                     $('update_prompt').value = req.responseText;
@@ -22,13 +22,13 @@
             newImgElement.onerror = function(e) {
                 $("image_slot").removeChild(newImgElement);
             }
-            newImgElement.src = window.location.href+"/image?t="+encodeURIComponent(performance.now());
+            newImgElement.src = window.location.href+"image?t="+encodeURIComponent(performance.now());
             $("image_slot").appendChild(newImgElement);
         };
         window.addEventListener('load', function(e) {
             $('update_prompt').addEventListener('click', function(e) {
                 var req = new XMLHttpRequest();
-                req.open("GET", window.location.href+"/update?prompt="+encodeURIComponent(e.target.value), true);
+                req.open("GET", window.location.href+"update?prompt="+encodeURIComponent(e.target.value), true);
                 req.onload = function(e) {
                     if (req.readyState === 4 && req.status === 200) {
                         updatePrompt();
