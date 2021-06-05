@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <script type="application/javascript">
+        var $ = document.getElementById;
+        var updatePrompt = function() {
+            var req = new XMLHttpRequest();
+            req.open("GET", window.location.href+"/activeprompt", true);
+            req.onload = function(e) {
+                if (req.readyState === 4 && req.status === 200) {
+                    $('update_prompt').value = req.responseText;
+                }
+            };
+            req.send(null);
+        };
+        var poll = function() {
+            var newImgElement = document.createElement("img");
+            newImgElement.onload = function(e) {
+                $("image_slot").removeChild($("image_slot").firstChild);
+            };
+            newImgElement.src = window.location.href+"/image?t="+encodeURIComponent(performance.now());
+            $("image_slot").appendChild(newImgElement);
+        };
+        window.addEventListener('load', function(e) {
+            $('update_prompt').addEventListener('click', function(e) {
+                var req = new XMLHttpRequest();
+                req.open("GET", window.location.href+"/update?prompt="+encodeURIComponent(e.target.value), true);
+                req.onload = function(e) {
+                    if (req.readyState === 4 && req.status === 200) {
+                        updatePrompt();
+                    }
+                };
+                req.send();
+            });
+            updatePrompt();
+            window.setInterval(poll, 2000);
+        });
+        </script>
+    </head>
+    <body>
+        <div id="image_slot"></div>
+        <input type="text" id="prompt_input" />
+        <button id="update_prompt">Update prompt</button>
+    </body>
+</html>
