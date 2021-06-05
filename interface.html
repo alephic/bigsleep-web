@@ -17,7 +17,9 @@
         var poll = function() {
             var newImgElement = document.createElement("img");
             newImgElement.onload = function(e) {
-                $("image_slot").removeChild($("image_slot").firstChild);
+                if ($("image_slot").childElementCount > 1) {
+                    $("image_slot").removeChild($("image_slot").firstChild);
+                }
                 newImgElement.style.display = 'block';
             };
             newImgElement.onerror = function(e) {
